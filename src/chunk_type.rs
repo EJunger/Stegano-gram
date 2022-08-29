@@ -82,18 +82,18 @@ impl FromStr for ChunkType {
 impl TryFrom<[u8; 4]> for ChunkType {
     type Error = Box<dyn Error>; //NOTE: ParseIntError instead maybe
 
-    fn try_from(values: [u8; 4]) -> Result<Self, Self::Error> {
+    fn try_from(bits: [u8; 4]) -> Result<Self, Self::Error> {
         Ok(Self {
-            ancillary_bit: values[0] as char,
-            private_bit: values[1] as char,
-            reserved_bit: values[2] as char,
-            safe_to_copy_bit: values[3] as char,
+            ancillary_bit: bits[0] as char,
+            private_bit: bits[1] as char,
+            reserved_bit: bits[2] as char,
+            safe_to_copy_bit: bits[3] as char,
         })
     }
 }
 
 #[cfg(test)]
-mod tests {
+mod type_tests {
     use super::*;
     use std::convert::TryFrom;
     use std::str::FromStr;
