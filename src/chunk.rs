@@ -5,9 +5,10 @@ use std::convert::TryFrom;
 
 use crc::{Crc, CRC_32_ISO_HDLC};
 
+#[derive(Debug)]
 pub struct Chunk {
     length: u32,
-    chunk_type: ChunkType,
+    pub chunk_type: ChunkType,
     data: Vec<u8>,
     crc: u32,
 }
@@ -34,7 +35,7 @@ impl Chunk {
         self.length
     }
 
-    fn chunk_type(&self) -> &ChunkType {
+    pub fn chunk_type(&self) -> &ChunkType {
         &self.chunk_type
     }
 
@@ -46,12 +47,12 @@ impl Chunk {
         self.crc
     }
 
-    fn data_as_string(&self) -> Result<String, Box<dyn Error>> {
+    pub fn data_as_string(&self) -> Result<String, Box<dyn Error>> {
         let owned_vec = self.data.to_owned();
         Ok(String::from_utf8(owned_vec).unwrap())
     }
 
-    fn as_bytes(&self) -> Vec<u8> {
+    pub fn as_bytes(&self) -> Vec<u8> {
         let length = self.length;
         let chunk_type = self.chunk_type.bytes();
         let data = self.data.clone();
@@ -83,7 +84,6 @@ impl TryFrom<&[u8]> for Chunk {
     type Error = &'static str;
 
     fn try_from(bytes: &[u8]) -> Result<Self, Self::Error> {
-
         let crc_algo: Crc<u32> = Crc::<u32>::new(&CRC_32_ISO_HDLC);
         let crc_offset = bytes.len() - 4;
 
