@@ -1,6 +1,7 @@
 use std::{error::Error, fmt::Display, str::FromStr};
 
-use crate::{chunk::Chunk, chunk_type::ChunkType};
+use crate::png::chunk_type::ChunkType;
+use crate::png::chunk::Chunk;
 
 #[derive(Debug)]
 pub struct Png {
@@ -102,8 +103,8 @@ impl TryFrom<&[u8]> for Png {
 #[cfg(test)]
 mod png_tests {
     use super::*;
-    use crate::chunk::Chunk;
-    use crate::chunk_type::ChunkType;
+    use crate::png::chunk::Chunk;
+    use crate::png::chunk_type::ChunkType;
     use std::convert::TryFrom;
     use std::str::FromStr;
 

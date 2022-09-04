@@ -1,4 +1,5 @@
-use crate::chunk_type::ChunkType;
+use crate::png::chunk_type::ChunkType;
+
 use std::error::Error;
 use std::fmt::Display;
 use std::convert::TryFrom;
@@ -119,7 +120,7 @@ impl TryFrom<&[u8]> for Chunk {
 #[cfg(test)]
 mod chunk_tests {
     use super::*;
-    use crate::chunk_type::ChunkType;
+    use crate::png::chunk_type::ChunkType;
     use std::str::FromStr;
 
     fn testing_chunk() -> Chunk {

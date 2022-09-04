@@ -1,4 +1,8 @@
+use std::{path::Path, fs::File};
+
 use clap::{Args, Parser, Subcommand};
+
+use crate::png::chunk_type::ChunkType;
 
 #[derive(Debug, Parser)]
 #[clap(author, version, about)]
@@ -8,26 +12,39 @@ pub struct StgArgs {
 }
 
 #[derive(Debug, Subcommand)]
-pub enum EnitiyType {
+pub enum EntityType {
     /// Encode hidden message
-    Encode(EncodeCommand),
+    Encode(EncodeArgs),
     /// Decode hidden message
-    Decode(DecodeCommand),
+    Decode(DecodeArgs),
     /// Remove message
-    Remode(RemoveCommand),
+    Remode(RemoveArgs),
     /// Print file path
-    Print(PrintCommand),
+    Print(PrintArgs),
 }
-
 
 #[derive(Debug, Args)]
-pub struct EncodeCommand {
-    #[clap(subcommand)]
-    pub cmd: EncodeSubcommand,
+pub struct EncodeArgs {
+    pub filepath: String,
+    pub chunk_type: ChunkType,
+    pub message: String,
+    pub output_file: Option<String>,
 }
 
-pub struct DecodeCommand {}
+#[derive(Debug, Args)]
+pub struct DecodeArgs {
+    pub filepath: String,
+    pub chunk_type: ChunkType,
+}
 
-pub struct RemoveCommand {}
+#[derive(Debug, Args)]
+pub struct RemoveArgs {
+    pub filepath: String,
+    pub chunk_type: ChunkType,
+}
 
-pub struct PrintCommand {}
+#[derive(Debug, Args)]
+pub struct PrintArgs {
+    pub filepath: String,
+}
+
