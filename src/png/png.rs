@@ -1,3 +1,6 @@
+use std::fs::File;
+use std::io::{BufReader, BufRead, Read};
+use std::path::Path;
 use std::{error::Error, fmt::Display, str::FromStr};
 
 use crate::png::chunk_type::ChunkType;
@@ -19,7 +22,17 @@ impl Png {
         }
     }
 
-    fn append_chunk(&mut self, chunk: Chunk) {
+    pub fn from_file<P: AsRef<Path>>(path: P) -> Result<Self, Box<dyn Error>> {
+        let file = File::open(path)?;
+        let mut reader = BufReader::new(file);
+        let mut buffer = Vec::new();
+
+        reader.read_to_end(&mut buffer)?;
+
+        Ok(Png::try_from(buffer.as_slice()).unwrap())
+    }
+
+    pub fn append_chunk(&mut self, chunk: Chunk) {
         self.chunks.push(chunk);
     }
 
@@ -50,7 +63,7 @@ impl Png {
         Some(filtered_chunks[0])
     }
 
-    fn as_bytes(&self) -> Vec<u8> {
+    pub fn as_bytes(&self) -> Vec<u8> {
         let chunks = self.chunks();
         let mut data: Vec<u8> = Vec::from(Png::STANDARD_HEADER);
 

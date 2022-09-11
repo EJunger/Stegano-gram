@@ -26,7 +26,7 @@ pub enum EntityType {
 #[derive(Debug, Args)]
 pub struct EncodeArgs {
     pub filepath: String,
-    pub chunk_type: ChunkType,
+    pub chunk_type: String,
     pub message: String,
     pub output_file: Option<String>,
 }
@@ -34,13 +34,13 @@ pub struct EncodeArgs {
 #[derive(Debug, Args)]
 pub struct DecodeArgs {
     pub filepath: String,
-    pub chunk_type: ChunkType,
+    pub chunk_type: String,
 }
 
 #[derive(Debug, Args)]
 pub struct RemoveArgs {
     pub filepath: String,
-    pub chunk_type: ChunkType,
+    pub chunk_type: String,
 }
 
 #[derive(Debug, Args)]
